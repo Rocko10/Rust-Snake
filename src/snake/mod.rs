@@ -1,11 +1,12 @@
 pub struct Snake {
     pub location: (f32, f32),
-    pub size: u8
+    pub size: u8,
+    pub alive: bool,
 }
 
 impl Snake {
     pub fn new(location: (f32, f32)) -> Snake {
-        Snake { location, size: 1 }
+        Snake { location, size: 1, alive: true }
     }
 
     pub fn move_on(&mut self, axis: &str) -> Result<(), &str> {
@@ -27,6 +28,10 @@ impl Snake {
     pub fn grow(&mut self) {
         self.size = self.size + 1;
     }
+
+    pub fn die(&mut self) {
+        self.alive = false;
+    }
 }
 
 #[cfg(test)]
@@ -38,6 +43,7 @@ mod test {
         let s = Snake::new((0.0, 0.0));
 
         assert_eq!(s.size, 1);
+        assert_eq!(s.alive, true);
     }
 
     #[test]
@@ -73,5 +79,14 @@ mod test {
 
         s.grow();
         assert_eq!(s.size, 3);
+    }
+
+    #[test]
+    fn test_die() {
+        let mut s = Snake::new((0.0, 0.0));
+
+        s.die();
+
+        assert_eq!(s.alive, false);
     }
 }
