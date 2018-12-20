@@ -23,6 +23,10 @@ impl Snake {
 
         Err("No valid axis")
     }
+
+    pub fn grow(&mut self) {
+        self.size = self.size + 1;
+    }
 }
 
 #[cfg(test)]
@@ -58,6 +62,16 @@ mod test {
         if let Err(e) = s.move_on("w") {
             assert_eq!(e, "No valid axis");
         }
+    }
 
+    #[test]
+    fn test_grow() {
+        let mut s = Snake::new((0.0, 0.0));
+
+        s.grow();
+        assert_eq!(s.size, 2);
+
+        s.grow();
+        assert_eq!(s.size, 3);
     }
 }
