@@ -21,7 +21,15 @@ impl MainState {
 
 impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
-        self.snake.move_on("x").unwrap();
+
+        if self.snake.alive {
+            self.snake.move_on("x").unwrap();
+        }
+
+        if self.snake.x() > 799.0 || self.snake.x() < 1.0
+        || self.snake.y() > 599.0 || self.snake.y() < 1.0 {
+            self.snake.die();
+        }
 
         Ok(())
     }
