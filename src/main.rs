@@ -1,34 +1,41 @@
 extern crate ggez;
 use ggez::*;
-use ggez::graphics::{DrawMode, Point2};
+use ggez::graphics::{DrawMode, Rect};
 
 mod snake;
+use snake::Snake;
 
 struct MainState {
-    pos_x: f32,
+    snake: Snake,
 }
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
-        let s = MainState { pos_x: 0.0 };
-        Ok(s)
+        let state = MainState {
+            snake: Snake::new((10.0, 10.0))
+        };
+
+        Ok(state)
     }
 }
 
 impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
-        self.pos_x = self.pos_x % 800.0 + 1.0;
+        self.snake.move_on("x").unwrap();
+
         Ok(())
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
+        let width = 10.0;
+        let height = 10.0;
+        let snake_shape = Rect::new(self.snake.location.0, self.snake.location.1, width, height);
+
         graphics::clear(ctx);
-        graphics::circle(ctx,
-                         DrawMode::Fill,
-                         Point2::new(self.pos_x, 380.0),
-                         100.0,
-                         2.0)?;
+        graphics::rectangle(ctx, DrawMode::Fill, snake_shape)?;
+
         graphics::present(ctx);
+
         Ok(())
     }
 }
