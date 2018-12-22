@@ -10,14 +10,26 @@ impl Snake {
     }
 
     pub fn move_on(&mut self, axis: &str) -> Result<(), &str> {
-        if axis == "x" {
+        if axis == "+x" {
             self.location = (self.location.0 + 1.0, self.location.1);
 
             return Ok(());
         }
 
-        if axis == "y" {
+        if axis == "+y" {
             self.location = (self.location.0, self.location.1 + 1.0);
+
+            return Ok(());
+        }
+
+        if axis == "-x" {
+            self.location = (self.location.0 - 1.0, self.location.1);
+
+            return Ok(());
+        }
+
+        if axis == "-y" {
+            self.location = (self.location.0, self.location.1 - 1.0);
 
             return Ok(());
         }
@@ -58,15 +70,25 @@ mod test {
     fn test_move_on_axis() {
         let mut s = Snake::new((0.0, 0.0));
 
-        s.move_on("x").unwrap();
+        s.move_on("+x").unwrap();
 
         assert_eq!(s.location.0, 1.0);
         assert_eq!(s.location.1, 0.0);
 
-        s.move_on("y").unwrap();
+        s.move_on("+y").unwrap();
 
         assert_eq!(s.location.0, 1.0);
         assert_eq!(s.location.1, 1.0);
+
+        s.move_on("-x").unwrap();
+
+        assert_eq!(s.location.0, 0.0);
+        assert_eq!(s.location.1, 1.0);
+
+        s.move_on("-y").unwrap();
+
+        assert_eq!(s.location.0, 0.0);
+        assert_eq!(s.location.1, 0.0);
     }
 
     #[test]
