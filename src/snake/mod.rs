@@ -32,6 +32,14 @@ impl Snake {
     pub fn die(&mut self) {
         self.alive = false;
     }
+
+    pub fn x(&self) -> f32 {
+        self.location.0
+    }
+
+    pub fn y(&self) -> f32 {
+        self.location.1
+    }
 }
 
 #[cfg(test)]
@@ -88,5 +96,13 @@ mod test {
         s.die();
 
         assert_eq!(s.alive, false);
+    }
+
+    #[test]
+    fn test_axis_shortcuts() {
+        let s = Snake::new((2.0, 5.0));
+
+        assert_eq!(s.x(), 2.0);
+        assert_eq!(s.y(), 5.0);
     }
 }
