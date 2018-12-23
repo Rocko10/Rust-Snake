@@ -2,16 +2,20 @@ pub struct Snake {
     pub location: (f32, f32),
     pub size: u8,
     pub movement: String,
+    pub speed: f32,
     pub alive: bool,
 }
 
+// TODO: Aument snake velocity
+// TODO: Spawn food
 impl Snake {
     pub fn new(location: (f32, f32)) -> Snake {
         Snake {
             location,
             size: 1,
             alive: true,
-            movement: String::from("+x")
+            movement: String::from("+x"),
+            speed: 1.0,
         }
     }
 
@@ -62,6 +66,16 @@ impl Snake {
     pub fn set_movement(&mut self, movement: &str) {
         self.movement = String::from(movement);
     }
+
+    pub fn set_speed(&mut self, speed: f32) -> Result<(), &str> {
+        if speed <= 0.0 {
+            return Err("Only positive speed");
+        }
+
+        self.speed = speed;
+
+        Ok(())
+    }
 }
 
 #[cfg(test)]
@@ -86,16 +100,19 @@ mod test {
         assert_eq!(s.location.1, 0.0);
 
         s.set_movement("+y");
+        s.ramble().unwrap();
 
         assert_eq!(s.location.0, 1.0);
         assert_eq!(s.location.1, 1.0);
 
         s.set_movement("-x");
+        s.ramble().unwrap();
 
         assert_eq!(s.location.0, 0.0);
         assert_eq!(s.location.1, 1.0);
 
         s.set_movement("-y");
+        s.ramble().unwrap();
 
         assert_eq!(s.location.0, 0.0);
         assert_eq!(s.location.1, 0.0);
@@ -149,5 +166,27 @@ mod test {
         s.set_movement("+y");
 
         assert_eq!(s.movement, String::from("+y"));
+    }
+
+    #[test]
+    fn test_error_on_set_speed() {
+        let mut s = Snake::new((0.0, 0.0));
+
+        assert_eq!(s.speed, 1.0);
+
+        if let Err(e) = s.set_speed(-1.0) {
+            assert_eq!("Only positive speed", e);
+        }
+    }
+
+    #[test]
+    fn test_set_speed() {
+        let mut s = Snake::new((0.0, 0.0));
+
+        assert_eq!(s.speed, 1.0);
+
+        s.set_speed(10.0).unwrap();
+
+        assert_eq!(s.speed, 10.0);
     }
 }
