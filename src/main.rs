@@ -44,7 +44,12 @@ impl event::EventHandler for MainState {
         let snake_shape = Rect::new(self.snake.location.0, self.snake.location.1, width, height);
 
         graphics::clear(ctx);
+
         graphics::rectangle(ctx, DrawMode::Fill, snake_shape)?;
+
+        if !self.snake.alive {
+            graphics::set_background_color(ctx, graphics::Color::new(255.0, 0.0, 0.0, 1.0));
+        }
 
         graphics::present(ctx);
 
