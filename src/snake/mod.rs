@@ -21,25 +21,25 @@ impl Snake {
 
     pub fn ramble(&mut self) -> Result<(), &str> {
         if self.movement == "+x" {
-            self.location = (self.location.0 + 1.0, self.location.1);
+            self.location = (self.location.0 + self.speed, self.location.1);
 
             return Ok(());
         }
 
         if self.movement == "+y" {
-            self.location = (self.location.0, self.location.1 + 1.0);
+            self.location = (self.location.0, self.location.1 + self.speed);
 
             return Ok(());
         }
 
         if self.movement == "-x" {
-            self.location = (self.location.0 - 1.0, self.location.1);
+            self.location = (self.location.0 - self.speed, self.location.1);
 
             return Ok(());
         }
 
         if self.movement == "-y" {
-            self.location = (self.location.0, self.location.1 - 1.0);
+            self.location = (self.location.0, self.location.1 - self.speed);
 
             return Ok(());
         }

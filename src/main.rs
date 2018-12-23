@@ -12,8 +12,11 @@ struct MainState {
 
 impl MainState {
     fn new(_ctx: &mut Context) -> GameResult<MainState> {
+        let mut snake = Snake::new((10.0, 10.0));
+        snake.set_speed(5.0).unwrap();
+
         let state = MainState {
-            snake: Snake::new((10.0, 10.0))
+            snake
         };
 
         Ok(state)
