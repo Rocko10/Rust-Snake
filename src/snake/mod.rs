@@ -6,7 +6,6 @@ pub struct Snake {
     pub alive: bool,
 }
 
-// TODO: Aument snake velocity
 // TODO: Spawn food
 impl Snake {
     pub fn new(location: (f32, f32)) -> Snake {
