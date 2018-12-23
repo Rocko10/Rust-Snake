@@ -1,12 +1,18 @@
 pub struct Snake {
     pub location: (f32, f32),
     pub size: u8,
+    pub movement: String,
     pub alive: bool,
 }
 
 impl Snake {
     pub fn new(location: (f32, f32)) -> Snake {
-        Snake { location, size: 1, alive: true }
+        Snake {
+            location,
+            size: 1,
+            alive: true,
+            movement: String::from("+x")
+        }
     }
 
     pub fn move_on(&mut self, axis: &str) -> Result<(), &str> {
@@ -51,6 +57,10 @@ impl Snake {
 
     pub fn y(&self) -> f32 {
         self.location.1
+    }
+
+    pub fn set_movement(&mut self, movement: String) {
+        self.movement = movement;
     }
 }
 
@@ -126,5 +136,16 @@ mod test {
 
         assert_eq!(s.x(), 2.0);
         assert_eq!(s.y(), 5.0);
+    }
+
+    #[test]
+    fn test_set_movement() {
+        let mut s = Snake::new((0.0, 0.0));
+
+        assert_eq!(s.movement, String::from("+x"));
+
+        s.set_movement(String::from("+y"));
+
+        assert_eq!(s.movement, String::from("+y"));
     }
 }
