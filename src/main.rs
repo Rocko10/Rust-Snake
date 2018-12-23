@@ -1,6 +1,7 @@
 extern crate ggez;
 use ggez::*;
 use ggez::graphics::{DrawMode, Rect};
+use ggez::event::{Keycode, Mod};
 
 mod snake;
 use snake::Snake;
@@ -23,7 +24,7 @@ impl event::EventHandler for MainState {
     fn update(&mut self, _ctx: &mut Context) -> GameResult<()> {
 
         if self.snake.alive {
-            self.snake.move_on("+x").unwrap();
+            self.snake.ramble().unwrap();
         }
 
         if self.snake.x() > 799.0 || self.snake.x() < 1.0
@@ -45,6 +46,16 @@ impl event::EventHandler for MainState {
         graphics::present(ctx);
 
         Ok(())
+    }
+
+    fn key_down_event(&mut self, _ctx: &mut Context, keycode: Keycode, _keymod: Mod, _repeat: bool) {
+        match keycode {
+            Keycode::Up => self.snake.set_movement("-y"),
+            Keycode::Down => self.snake.set_movement("+y"),
+            Keycode::Left => self.snake.set_movement("-x"),
+            Keycode::Right => self.snake.set_movement("+x"),
+            _ => println!("Another key")
+        }
     }
 }
 

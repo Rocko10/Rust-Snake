@@ -15,26 +15,26 @@ impl Snake {
         }
     }
 
-    pub fn move_on(&mut self, axis: &str) -> Result<(), &str> {
-        if axis == "+x" {
+    pub fn ramble(&mut self) -> Result<(), &str> {
+        if self.movement == "+x" {
             self.location = (self.location.0 + 1.0, self.location.1);
 
             return Ok(());
         }
 
-        if axis == "+y" {
+        if self.movement == "+y" {
             self.location = (self.location.0, self.location.1 + 1.0);
 
             return Ok(());
         }
 
-        if axis == "-x" {
+        if self.movement == "-x" {
             self.location = (self.location.0 - 1.0, self.location.1);
 
             return Ok(());
         }
 
-        if axis == "-y" {
+        if self.movement == "-y" {
             self.location = (self.location.0, self.location.1 - 1.0);
 
             return Ok(());
@@ -59,8 +59,8 @@ impl Snake {
         self.location.1
     }
 
-    pub fn set_movement(&mut self, movement: String) {
-        self.movement = movement;
+    pub fn set_movement(&mut self, movement: &str) {
+        self.movement = String::from(movement);
     }
 }
 
@@ -80,22 +80,22 @@ mod test {
     fn test_move_on_axis() {
         let mut s = Snake::new((0.0, 0.0));
 
-        s.move_on("+x").unwrap();
+        s.ramble().unwrap();
 
         assert_eq!(s.location.0, 1.0);
         assert_eq!(s.location.1, 0.0);
 
-        s.move_on("+y").unwrap();
+        s.set_movement("+y");
 
         assert_eq!(s.location.0, 1.0);
         assert_eq!(s.location.1, 1.0);
 
-        s.move_on("-x").unwrap();
+        s.set_movement("-x");
 
         assert_eq!(s.location.0, 0.0);
         assert_eq!(s.location.1, 1.0);
 
-        s.move_on("-y").unwrap();
+        s.set_movement("-y");
 
         assert_eq!(s.location.0, 0.0);
         assert_eq!(s.location.1, 0.0);
@@ -105,7 +105,9 @@ mod test {
     fn test_get_error_on_wrong_axis() {
         let mut s = Snake::new((0.0, 0.0));
 
-        if let Err(e) = s.move_on("w") {
+        s.set_movement("w");
+
+        if let Err(e) = s.ramble() {
             assert_eq!(e, "No valid axis");
         }
     }
@@ -144,7 +146,7 @@ mod test {
 
         assert_eq!(s.movement, String::from("+x"));
 
-        s.set_movement(String::from("+y"));
+        s.set_movement("+y");
 
         assert_eq!(s.movement, String::from("+y"));
     }
