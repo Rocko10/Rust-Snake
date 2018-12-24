@@ -1,13 +1,19 @@
 extern crate ggez;
+extern crate rand;
+
 use ggez::*;
 use ggez::graphics::{DrawMode, Rect};
 use ggez::event::{Keycode, Mod};
 
+use rand::Rng;
+
 mod snake;
 use snake::Snake;
+use snake::food::Food;
 
 struct MainState {
     snake: Snake,
+    food: Food,
 }
 
 impl MainState {
@@ -15,8 +21,12 @@ impl MainState {
         let mut snake = Snake::new((10.0, 10.0));
         snake.set_speed(5.0).unwrap();
 
+        let mut rng = rand::thread_rng();
+        let food = Food::new((rng.gen_range(5, 780) as f32, rng.gen_range(5, 580) as f32));
+
         let state = MainState {
-            snake
+            snake,
+            food,
         };
 
         Ok(state)
@@ -42,10 +52,14 @@ impl event::EventHandler for MainState {
         let width = 10.0;
         let height = 10.0;
         let snake_shape = Rect::new(self.snake.location.0, self.snake.location.1, width, height);
+        let food_shape = Rect::new(self.food.x(), self.food.y(), width, height);
+        // TODO: Change color of the food
+        // graphics::set_color(&mut food_shape, graphics::Color::new(255.0, 255.0, 0.0, 1.0));
 
         graphics::clear(ctx);
 
         graphics::rectangle(ctx, DrawMode::Fill, snake_shape)?;
+        graphics::rectangle(ctx, DrawMode::Fill, food_shape)?;
 
         if !self.snake.alive {
             graphics::set_background_color(ctx, graphics::Color::new(255.0, 0.0, 0.0, 1.0));
