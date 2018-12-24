@@ -1,3 +1,5 @@
+mod food;
+
 pub struct Snake {
     pub location: (f32, f32),
     pub size: u8,
