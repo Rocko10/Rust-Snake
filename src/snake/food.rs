@@ -1,12 +1,18 @@
 use entity::Entity;
 
 pub struct Food {
-    location: (f32, f32)
+    location: (f32, f32),
+    pub size_on_x: f32,
+    pub size_on_y: f32,
 }
 
 impl Food {
     pub fn new(location: (f32, f32)) -> Food {
-        Food { location }
+        Food {
+            location,
+            size_on_x: 10.0,
+            size_on_y: 10.0,
+        }
     }
 }
 
@@ -17,6 +23,14 @@ impl Entity for Food {
 
     fn y(&self) -> f32 {
         self.location.1
+    }
+
+    fn get_size_on_x(&self) -> f32 {
+        self.size_on_x
+    }
+
+    fn get_size_on_y(&self) -> f32 {
+        self.size_on_y
     }
 }
 

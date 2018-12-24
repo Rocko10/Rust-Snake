@@ -10,6 +10,8 @@ use rand::Rng;
 mod entity;
 use entity::Entity;
 
+mod sys_interaction;
+
 mod snake;
 use snake::Snake;
 use snake::food::Food;

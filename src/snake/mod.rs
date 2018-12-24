@@ -7,6 +7,8 @@ pub struct Snake {
     pub movement: String,
     pub speed: f32,
     pub alive: bool,
+    pub size_on_x: f32,
+    pub size_on_y: f32,
 }
 
 impl Snake {
@@ -17,6 +19,8 @@ impl Snake {
             alive: true,
             movement: String::from("+x"),
             speed: 1.0,
+            size_on_x: 10.0,
+            size_on_y: 10.0,
         }
     }
 
@@ -78,6 +82,14 @@ impl Entity for Snake {
 
     fn y(&self) -> f32 {
         self.location.1
+    }
+
+    fn get_size_on_x(&self) -> f32 {
+        self.size_on_x
+    }
+
+    fn get_size_on_y(&self) -> f32 {
+        self.size_on_y
     }
 }
 
