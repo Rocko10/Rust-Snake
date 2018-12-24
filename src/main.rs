@@ -11,6 +11,7 @@ mod entity;
 use entity::Entity;
 
 mod sys_interaction;
+use sys_interaction::SysInt;
 
 mod snake;
 use snake::Snake;
@@ -48,6 +49,10 @@ impl event::EventHandler for MainState {
         if self.snake.x() > 799.0 || self.snake.x() < 1.0
         || self.snake.y() > 599.0 || self.snake.y() < 1.0 {
             self.snake.die();
+        }
+
+        if SysInt::collide(&self.food, &self.snake) {
+            println!("A collision!!");
         }
 
         Ok(())
