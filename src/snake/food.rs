@@ -1,3 +1,5 @@
+use entity::Entity;
+
 pub struct Food {
     location: (f32, f32)
 }
@@ -6,21 +8,23 @@ impl Food {
     pub fn new(location: (f32, f32)) -> Food {
         Food { location }
     }
+}
 
-    pub fn x(&self) -> f32 {
+impl Entity for Food {
+    fn x(&self) -> f32 {
         self.location.0
     }
 
-    pub fn y(&self) -> f32 {
+    fn y(&self) -> f32 {
         self.location.1
     }
-
 }
 
 #[cfg(test)]
 mod test {
 
     use snake::food::Food;
+    use entity::Entity;
 
     #[test]
     fn test_new() {

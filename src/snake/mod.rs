@@ -1,4 +1,5 @@
 pub mod food;
+use entity::Entity;
 
 pub struct Snake {
     pub location: (f32, f32),
@@ -8,7 +9,6 @@ pub struct Snake {
     pub alive: bool,
 }
 
-// TODO: Spawn food
 impl Snake {
     pub fn new(location: (f32, f32)) -> Snake {
         Snake {
@@ -56,14 +56,6 @@ impl Snake {
         self.alive = false;
     }
 
-    pub fn x(&self) -> f32 {
-        self.location.0
-    }
-
-    pub fn y(&self) -> f32 {
-        self.location.1
-    }
-
     pub fn set_movement(&mut self, movement: &str) {
         self.movement = String::from(movement);
     }
@@ -76,6 +68,16 @@ impl Snake {
         self.speed = speed;
 
         Ok(())
+    }
+}
+
+impl Entity for Snake {
+    fn x(&self) -> f32 {
+        self.location.0
+    }
+
+    fn y(&self) -> f32 {
+        self.location.1
     }
 }
 

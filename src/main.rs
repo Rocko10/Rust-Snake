@@ -7,6 +7,9 @@ use ggez::event::{Keycode, Mod};
 
 use rand::Rng;
 
+mod entity;
+use entity::Entity;
+
 mod snake;
 use snake::Snake;
 use snake::food::Food;
