@@ -84,6 +84,7 @@ impl Entity for Snake {
 #[cfg(test)]
 mod test {
     use snake::Snake;
+    use entity::Entity;
 
     #[test]
     fn test_creation() {
