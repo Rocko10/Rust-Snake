@@ -16,7 +16,6 @@ mod snake;
 use snake::Snake;
 use snake::food::Food;
 
-// TODO: Refactor the size of food and snake
 struct MainState {
     snake: Snake,
     food: Food,
@@ -55,10 +54,13 @@ impl event::EventHandler for MainState {
     }
 
     fn draw(&mut self, ctx: &mut Context) -> GameResult<()> {
-        let width = 10.0;
-        let height = 10.0;
-        let snake_shape = Rect::new(self.snake.location.0, self.snake.location.1, width, height);
-        let food_shape = Rect::new(self.food.x(), self.food.y(), width, height);
+        let snake_shape = Rect::new(self.snake.location.0,
+            self.snake.location.1,
+            self.snake.get_size_on_x(), self.snake.get_size_on_y());
+        let food_shape = Rect::new(self.food.x(),
+            self.food.y(),
+            self.snake.get_size_on_x(),
+            self.snake.get_size_on_y());
         // TODO: Change color of the food
         // graphics::set_color(&mut food_shape, graphics::Color::new(255.0, 255.0, 0.0, 1.0));
 
