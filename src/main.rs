@@ -11,6 +11,7 @@ mod snake;
 use snake::Snake;
 use snake::food::Food;
 
+// TODO: Refactor the size of food and snake
 struct MainState {
     snake: Snake,
     food: Food,
