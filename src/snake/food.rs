@@ -14,6 +14,10 @@ impl Food {
             size_on_y: 10.0,
         }
     }
+
+    pub fn set_location(&mut self, location: (f32, f32)) {
+        self.location = location
+    }
 }
 
 impl Entity for Food {
@@ -46,6 +50,19 @@ mod test {
 
         assert_eq!(f.x(), 1.0);
         assert_eq!(f.y(), 2.0);
+    }
+
+    #[test]
+    fn test_set_location() {
+        let mut f = Food::new((0.0, 0.0));
+
+        assert_eq!(f.x(), 0.0);
+        assert_eq!(f.y(), 0.0);
+
+        f.set_location((2.0, 3.0));
+
+        assert_eq!(f.x(), 2.0);
+        assert_eq!(f.y(), 3.0);
     }
 
 }
