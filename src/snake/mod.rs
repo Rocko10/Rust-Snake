@@ -1,4 +1,6 @@
 pub mod food;
+pub mod node;
+
 use entity::Entity;
 
 pub struct Snake {

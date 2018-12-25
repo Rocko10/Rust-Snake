@@ -16,6 +16,7 @@ use sys_interaction::SysInt;
 mod snake;
 use snake::Snake;
 use snake::food::Food;
+use snake::node::Node;
 
 struct MainState {
     snake: Snake,
@@ -55,6 +56,10 @@ impl event::EventHandler for MainState {
         if SysInt::collide(&self.food, &self.snake) {
             let mut rng = rand::thread_rng();
             self.food.set_location((rng.gen_range(5, 780) as f32, rng.gen_range(5, 580) as f32));
+
+            self.snake.grow();
+
+            println!("Snake size: {}", self.snake.size);
         }
 
         Ok(())
@@ -64,6 +69,7 @@ impl event::EventHandler for MainState {
         let snake_shape = Rect::new(self.snake.location.0,
             self.snake.location.1,
             self.snake.get_size_on_x(), self.snake.get_size_on_y());
+
         let food_shape = Rect::new(self.food.x(),
             self.food.y(),
             self.snake.get_size_on_x(),
