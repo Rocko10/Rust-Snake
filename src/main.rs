@@ -52,7 +52,8 @@ impl event::EventHandler for MainState {
         }
 
         if SysInt::collide(&self.food, &self.snake) {
-            println!("A collision!!");
+            let mut rng = rand::thread_rng();
+            self.food.set_location((rng.gen_range(5, 780) as f32, rng.gen_range(5, 580) as f32));
         }
 
         Ok(())
