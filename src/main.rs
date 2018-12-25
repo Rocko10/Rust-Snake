@@ -46,6 +46,7 @@ impl event::EventHandler for MainState {
             self.snake.ramble().unwrap();
         }
 
+        // TODO: Move this to the sys_interaction
         if self.snake.x() > 799.0 || self.snake.x() < 1.0
         || self.snake.y() > 599.0 || self.snake.y() < 1.0 {
             self.snake.die();
