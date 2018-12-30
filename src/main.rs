@@ -13,13 +13,16 @@ use entity::Entity;
 mod sys_interaction;
 use sys_interaction::SysInt;
 
+mod node;
+
 mod snake;
 use snake::Snake;
 use snake::food::Food;
-use snake::node::Node;
 
 struct MainState {
     snake: Snake,
+    positions: Vec<(f32, f32)>,
+    i_pos: usize,
     food: Food,
 }
 
@@ -34,6 +37,8 @@ impl MainState {
         let state = MainState {
             snake,
             food,
+            positions: Vec::new(),
+            i_pos: 0,
         };
 
         Ok(state)
@@ -59,7 +64,12 @@ impl event::EventHandler for MainState {
 
             self.snake.grow();
 
-            println!("Snake size: {}", self.snake.size);
+            self.positions.push((self.snake.x(), self.snake.y()));
+        }
+
+        if self.positions.len() > 0 {
+            self.positions[self.i_pos] = (self.snake.x(), self.snake.y());
+            self.i_pos = (self.i_pos + 1) % self.positions.len();
         }
 
         Ok(())
@@ -86,6 +96,11 @@ impl event::EventHandler for MainState {
             graphics::set_background_color(ctx, graphics::Color::new(255.0, 0.0, 0.0, 1.0));
         }
 
+        for pos in &self.positions {
+            let ts = Rect::new(pos.0, pos.1, self.snake.get_size_on_x(), self.snake.get_size_on_y());
+            graphics::rectangle(ctx, DrawMode::Fill, ts)?;
+        }
+
         graphics::present(ctx);
 
         Ok(())
@@ -97,7 +112,7 @@ impl event::EventHandler for MainState {
             Keycode::Down => self.snake.set_movement("+y"),
             Keycode::Left => self.snake.set_movement("-x"),
             Keycode::Right => self.snake.set_movement("+x"),
-            _ => println!("Another key")
+            _ => ()
         }
     }
 }

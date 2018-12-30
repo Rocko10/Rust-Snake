@@ -1,7 +1,8 @@
 pub mod food;
-pub mod node;
+pub mod tail;
 
 use entity::Entity;
+use node::Node;
 
 pub struct Snake {
     pub location: (f32, f32),
@@ -92,6 +93,20 @@ impl Entity for Snake {
 
     fn get_size_on_y(&self) -> f32 {
         self.size_on_y
+    }
+}
+
+impl Node for Snake {
+    fn get_location(&self) -> (f32, f32) {
+        (self.location.0, self.location.1)
+    }
+
+    fn get_size(&self) -> f32 {
+        self.get_size_on_x()
+    }
+
+    fn get_movement(&self) -> &str {
+        &self.movement
     }
 }
 
