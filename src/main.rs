@@ -56,20 +56,19 @@ impl event::EventHandler for MainState {
             self.snake.die();
         }
 
+        self.snake.eval_ramble();
+
+        if self.snake.size > 1 {
+            self.snake.tail[self.time] = (self.snake.x(), self.snake.y());
+            self.time = (self.time + 1) % self.snake.tail.len();
+        }
+
         if SysInt::collide(&self.food, &self.snake) {
             let mut rng = rand::thread_rng();
             self.food.set_location((rng.gen_range(5, 780) as f32, rng.gen_range(5, 580) as f32));
 
             self.snake.grow();
-
-            let x = self.snake.x();
-            let y = self.snake.y();
-            self.snake.add_tail((x, y));
-        }
-
-        if self.snake.tail.len() > 0 {
-            self.snake.tail[self.time] = (self.snake.x(), self.snake.y());
-            self.time = (self.time + 1) % self.snake.tail.len();
+            self.snake.add_tail((-100.0, -100.0));
         }
 
         Ok(())

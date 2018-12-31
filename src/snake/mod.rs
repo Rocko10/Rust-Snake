@@ -1,5 +1,4 @@
 pub mod food;
-pub mod tail;
 
 use entity::Entity;
 use node::Node;
@@ -81,6 +80,19 @@ impl Snake {
 
     pub fn add_tail(&mut self, tail: (f32, f32)) {
         self.tail.push(tail);
+    }
+
+    pub fn eval_ramble(&mut self) {
+        let mut death = false;
+
+        for t in &self.tail {
+            if self.location == *t {
+                death = true;
+                break;
+            }
+        }
+
+        if death { self.die() };
     }
 }
 
@@ -242,5 +254,23 @@ mod test {
         assert_eq!(tail[0].1, 0.0);
         assert_eq!(tail[1].0, 16.0);
         assert_eq!(tail[1].1, 10.0);
+    }
+
+    #[test]
+    fn test_eval_ramble() {
+        let mut s = Snake::new((0.0, 0.0));
+
+        let tail = vec![(15.0, 7.0), (11.0, 3.0), (4.0, 3.0)];
+        s.tail = tail;
+
+        s.eval_ramble();
+
+        assert_eq!(s.alive, true);
+
+        s.location = (11.0, 3.0);
+
+        s.eval_ramble();
+
+        assert_eq!(s.alive, false);
     }
 }
