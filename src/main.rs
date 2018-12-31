@@ -21,7 +21,6 @@ use snake::food::Food;
 
 struct MainState {
     snake: Snake,
-    tail: Vec<(f32, f32)>,
     time: usize,
     food: Food,
 }
@@ -37,7 +36,6 @@ impl MainState {
         let state = MainState {
             snake,
             food,
-            tail: Vec::new(),
             time: 0,
         };
 
@@ -64,12 +62,14 @@ impl event::EventHandler for MainState {
 
             self.snake.grow();
 
-            self.tail.push((self.snake.x(), self.snake.y()));
+            let x = self.snake.x();
+            let y = self.snake.y();
+            self.snake.add_tail((x, y));
         }
 
-        if self.tail.len() > 0 {
-            self.tail[self.time] = (self.snake.x(), self.snake.y());
-            self.time = (self.time + 1) % self.tail.len();
+        if self.snake.tail.len() > 0 {
+            self.snake.tail[self.time] = (self.snake.x(), self.snake.y());
+            self.time = (self.time + 1) % self.snake.tail.len();
         }
 
         Ok(())
@@ -96,7 +96,7 @@ impl event::EventHandler for MainState {
             graphics::set_background_color(ctx, graphics::Color::new(255.0, 0.0, 0.0, 1.0));
         }
 
-        for t in &self.tail {
+        for t in &self.snake.tail {
             let ts = Rect::new(t.0, t.1, self.snake.get_size_on_x(), self.snake.get_size_on_y());
             graphics::rectangle(ctx, DrawMode::Fill, ts)?;
         }

@@ -12,6 +12,7 @@ pub struct Snake {
     pub alive: bool,
     pub size_on_x: f32,
     pub size_on_y: f32,
+    pub tail: Vec<(f32, f32)>
 }
 
 impl Snake {
@@ -24,6 +25,7 @@ impl Snake {
             speed: 1.0,
             size_on_x: 10.0,
             size_on_y: 10.0,
+            tail: Vec::new(),
         }
     }
 
@@ -75,6 +77,10 @@ impl Snake {
         self.speed = speed;
 
         Ok(())
+    }
+
+    pub fn add_tail(&mut self, tail: (f32, f32)) {
+        self.tail.push(tail);
     }
 }
 
@@ -221,5 +227,20 @@ mod test {
         s.set_speed(10.0).unwrap();
 
         assert_eq!(s.speed, 10.0);
+    }
+
+    #[test]
+    fn test_tail() {
+        let mut s = Snake::new((0.0, 10.0));
+
+        s.add_tail((12.0, 0.0));
+        s.add_tail((16.0, 10.0));
+
+        let tail = s.tail;
+
+        assert_eq!(tail[0].0, 12.0);
+        assert_eq!(tail[0].1, 0.0);
+        assert_eq!(tail[1].0, 16.0);
+        assert_eq!(tail[1].1, 10.0);
     }
 }
