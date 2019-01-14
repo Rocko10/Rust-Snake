@@ -2,6 +2,6 @@ language: rust
 rust:
     - nightly
 script:
-    - sudo apt-get install libasound2-dev libsdl2
+    - sudo apt-get install libasound2-dev libsdl2-dev
     - cargo build --verbose --all
     - cargo test --verbose --all
