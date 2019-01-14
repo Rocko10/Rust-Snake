@@ -1,4 +1,6 @@
 # Rust-Snake
+[![Build Status](https://travis-ci.org/Rocko10/Rust-Snake.svg?branch=master)](https://travis-ci.org/Rocko10/Rust-Snake)
+
 A Snake game in Rust and ggez game engine.
 
 ## Prerequisites
