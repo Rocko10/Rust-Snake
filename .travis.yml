@@ -2,5 +2,6 @@ language: rust
 rust:
     - nightly
 script:
+    - apt-get install libasound2-dev
     - cargo build --verbose --all
     - cargo test --verbose --all
